@@ -1174,6 +1174,16 @@
     "@material/typography" "^2.3.0"
     tslib "^1.9.3"
 
+"@material/image-list@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@material/image-list/-/image-list-1.1.1.tgz#7f524e2ad116736656c002b2d6f3a87404a1a20f"
+  integrity sha512-Y4mUWiD6ODMzAPjcjNTB9O2KriQT7H+dStikRLCXp5lNIU46MwZtu5b67wzRAxq0dnIQ0kJyE9tIYhYRYYKW9w==
+  dependencies:
+    "@material/feature-targeting" "^0.44.1"
+    "@material/shape" "^1.1.1"
+    "@material/theme" "^1.1.0"
+    "@material/typography" "^1.0.0"
+
 "@material/line-ripple@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@material/line-ripple/-/line-ripple-1.1.0.tgz#0fef69c14ddf42877f10eed05c1a2489808f1cf4"
@@ -1344,6 +1354,15 @@
   dependencies:
     "@rmwc/base" "^5.5.2"
     "@rmwc/provider" "^5.5.2"
+    "@rmwc/types" "^5.5.2"
+
+"@rmwc/image-list@^5.5.2":
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/@rmwc/image-list/-/image-list-5.5.2.tgz#46095120331112e62b7de6bb22488ddfef9b5b21"
+  integrity sha512-6vzKR19cgraQDsnspAABJKrUBYWEwoE6h2gQmZwr0RY/vApBQ/jldXk3UkuBi420pkJyyJTZ4sw2rbwN3PxU5w==
+  dependencies:
+    "@material/image-list" "^1.1.1"
+    "@rmwc/base" "^5.5.2"
     "@rmwc/types" "^5.5.2"
 
 "@rmwc/line-ripple@^5.5.2":

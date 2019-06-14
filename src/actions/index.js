@@ -1,7 +1,7 @@
 import themoviedb from '../api/themoviedb';
 
 export const fetchMoviesAndShows = (value) => async (dispatch, getState) => {
-  console.log('fetchMoviesAndShows', value);
+
   await dispatch(fetchMovies(value));
   await dispatch(fetchTVShows(value));
 
@@ -22,7 +22,7 @@ export const fetchMovies =  (value) => async  dispatch => {
       page:1
     }
     });
-
+    
   dispatch({ type: 'FETCH_MOVIES', payload: response.data.results });
 };
 
@@ -36,6 +36,7 @@ export const fetchTVShows =  value =>  async dispatch => {
       page:1
     }
     });
+
   dispatch({ type: 'FETCH_TVSHOWS', payload: response.data.results });
 };
    

@@ -4,7 +4,7 @@ import tvShowsReducer from './tvShowsReducer';
 import moviesAndShowsReducer from './moviesAndShowsReducer';
 
 export default combineReducers({
-    movies: moviesReducer,
-    tvShows: tvShowsReducer,
-    moviesAndShows: moviesAndShowsReducer
+  movies: moviesReducer,
+  tvShows: tvShowsReducer,
+  moviesAndShows: moviesAndShowsReducer
 });

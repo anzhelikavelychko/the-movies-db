@@ -1,34 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
-//import themoviedb from '../api/themoviedb';
 import SearchField from './SearchField';
+import ItemList from './ItemList';
 import { fetchMoviesAndShows } from '../actions/index';
 
 
-const App = ({ fetchMoviesAndShows }) => {
+const App = ({ moviesAndShows, fetchMoviesAndShows }) => {
 
   const onSearchSubmit = (value) => {
     fetchMoviesAndShows(value);
-   /* themoviedb.get('/search/movie', {
-      params: {
-        api_key: "9f8233e5843d6fc70a65f379d4909c34",
-        language: "en-US",
-        query: value,
-        include_adult: false,
-        page:1
-      }
-    });*/
   };
 
   return ( 
+    
     <div>
       <SearchField  onSearchSubmit = {onSearchSubmit}/>
+      <ItemList list= {moviesAndShows} />
     </div>
   );
 };
 
 const mapStateToProps = (state) => {
-  console.log('inMapStateToProps', state)
+  return {
+    moviesAndShows: state.moviesAndShows
+  }
 }
 
 export default connect(mapStateToProps, { fetchMoviesAndShows })(App);
