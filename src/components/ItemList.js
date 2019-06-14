@@ -5,30 +5,26 @@ import {
   ImageListImage, 
   ImageListSupporting, 
   ImageListLabel,
+  ImageListImageAspectContainer 
 } from '@rmwc/image-list';
 import '@material/image-list/dist/mdc.image-list.css';
 
 
 const ItemList = ({ list }) => {
-  console.log(list); 
 
   const renderList = () => ( 
     
-    <ImageList
-      masonry
-      withTextProtection
-      style={{
-        columnCount: 5,
-        columnGap: '16px',
-        maxWidth: '1000px'
-      }}
-    >
+    <ImageList>
       {list.map(element => (
         <ImageListItem
           key={element.id}
-          style={{ marginBottom: '16px' }}
+          style={{ margin: '5px', width: 'calc(100% / 6 - 5px)' }}
         >
-          <ImageListImage src={"http://image.tmdb.org/t/p/w92/" + element.poster_path} />
+          <ImageListImageAspectContainer
+            style={{ paddingBottom: 'calc(100% / 0.8)' }}
+          >
+            <ImageListImage src={"http://image.tmdb.org/t/p/w185/" + element.poster_path} />
+          </ImageListImageAspectContainer>
           <ImageListSupporting>
             <ImageListLabel>{element.title}</ImageListLabel>
           </ImageListSupporting>

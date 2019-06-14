@@ -5,8 +5,8 @@ export const fetchMoviesAndShows = (value) => async (dispatch, getState) => {
   await dispatch(fetchMovies(value));
   await dispatch(fetchTVShows(value));
 
-  const movies = getState().movies[0]; 
-  const tvShows = getState().tvShows[0];
+  const movies = getState().movies; 
+  const tvShows = getState().tvShows;
   const moviesAndShows = [].concat(movies, tvShows);
 
   dispatch({ type: 'FETCH_MOVIES_AND_SHOWS', payload: moviesAndShows });
@@ -22,7 +22,7 @@ export const fetchMovies =  (value) => async  dispatch => {
       page:1
     }
     });
-    
+
   dispatch({ type: 'FETCH_MOVIES', payload: response.data.results });
 };
 

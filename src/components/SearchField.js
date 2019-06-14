@@ -22,7 +22,11 @@ const SearchField = ({ onSearchSubmit }) => {
       <form onSubmit={onFormSubmit}>
         <TextField 
           icon="search" 
-          trailingIcon="close" 
+          trailingIcon={{
+            icon: 'close',
+            tabIndex: 0,
+            onClick: () => setInputValue('')
+          }}
           label="Search..."
           value = {inputValue}
           onChange = {onInputChange}
