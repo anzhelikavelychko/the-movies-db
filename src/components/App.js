@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchMoviesAndShows } from '../actions/index';
+import { fetchMoviesAndShows, fetchMovies, fetchTVShows } from '../actions/index';
 
 import SearchField from './SearchField';
 import TabBarMenu from './TabBarMenu';
-import ItemList from './ItemList';
+import MenuItemContent from './MenuItemContent';
 
 
-const App = ({ moviesAndShows, movies, tvShows, fetchMoviesAndShows }) => {
+const App = ({ 
+  moviesAndShows, 
+  movies, 
+  tvShows, 
+  fetchMoviesAndShows,
+  fetchMovies,
+  fetchTVShows 
+}) => {
 
   const [activeTab, setActiveTab] = useState(0);
 
   const onSearchSubmit = (value) => {
     fetchMoviesAndShows(value);
   };
-
-  const getListOfItems = () => {
-    if(activeTab === 1) {
-      return movies
-    } else if (activeTab === 2) {
-      return tvShows
-    }
-    return moviesAndShows;
-  }; 
-
+  
   return ( 
     <div>
       <SearchField  onSearchSubmit = {onSearchSubmit}/>
       <TabBarMenu activeTab={activeTab} setActiveTab={setActiveTab} />
-      <ItemList list= {getListOfItems()} />
+      { activeTab === 0 && <MenuItemContent fetchData={fetchMoviesAndShows} data={moviesAndShows}/> }
+      { activeTab === 1 && <MenuItemContent fetchData={fetchMovies} data={movies}/> }
+      { activeTab === 2 && <MenuItemContent fetchData={fetchTVShows} data={tvShows}/> }
     </div>
   );
 };
@@ -41,4 +41,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { fetchMoviesAndShows })(App);
+export default connect(mapStateToProps, { fetchMoviesAndShows, fetchMovies, fetchTVShows })(App);
