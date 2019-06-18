@@ -5,9 +5,8 @@ import '@material/textfield/dist/mdc.textfield.css';
 import '@material/button/dist/mdc.button.css';
 
 
-const SearchField = ({ onSearchSubmit }) => {
+const SearchField = ({ inputValue, setInputValue, onSearchSubmit }) => {
 
-  const [ inputValue, setInputValue ] =  useState('');
 
   const onInputChange =  (event) => {
     setInputValue(event.target.value);
