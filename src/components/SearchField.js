@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import { TextField } from '@rmwc/textfield';
 import { Button } from '@rmwc/button'
 import '@material/textfield/dist/mdc.textfield.css';
 import '@material/button/dist/mdc.button.css';
 
+import { clearDataFromStore } from '../actions/index';
 
-const SearchField = ({ inputValue, setInputValue, onSearchSubmit }) => {
 
+const SearchField = ({ inputValue, setInputValue, onSearchSubmit, clearDataFromStore }) => {
 
   const onInputChange =  (event) => {
     setInputValue(event.target.value);
   };
+
   const onFormSubmit = event => {
     event.preventDefault();
     onSearchSubmit(inputValue);
+  };
+
+  const clearSearchField = () => {
+    clearDataFromStore();
+    setInputValue('');
+
   };
 
   return(
@@ -24,7 +33,7 @@ const SearchField = ({ inputValue, setInputValue, onSearchSubmit }) => {
           trailingIcon={{
             icon: 'close',
             tabIndex: 0,
-            onClick: () => setInputValue('')
+            onClick: clearSearchField
           }}
           label="Search..."
           value = {inputValue}
@@ -37,4 +46,4 @@ const SearchField = ({ inputValue, setInputValue, onSearchSubmit }) => {
   );
 };
 
-export default SearchField;
+export default connect(null, { clearDataFromStore })(SearchField);

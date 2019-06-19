@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import ItemList from './ItemList';
 
@@ -6,51 +6,54 @@ import { Button } from '@rmwc/button';
 import { CircularProgress } from '@rmwc/circular-progress';
 
 
-const MenuItemContent = ({ data, fetchData, searchText }) => {
-  console.log('data.searchedItems.length', data.searchedItems.length);
+class MenuItemContent extends React.Component {
+  state = {activePage: 1 };
 
-  const [activePage, setActivePage] = useState(1);
+  componentDidMount() {
+    const { searchText } = this.props;
+    if (searchText.length) {
+      this.props.fetchData(searchText);
+    } 
+  }
 
-  const onLoad = () => {
+  componentWillUnmount () {
+    this.props.clearDataFromStore();
+    this.setState({activePage: 1});
+  }
 
-    setActivePage(activePage+1);
-    console.log('activePage in COMPONENT', activePage);
+  onLoad = () => {
+    const { searchText } = this.props;
+    const nextPage = this.state.activePage + 1;
+    
+    this.setState({activePage: nextPage});
 
-    fetchData(searchText, activePage);
+    this.props.fetchData(searchText, nextPage);
   };
+  
+  renderLoadMoreButton = () => {
+    const { data } = this.props;
 
-  useEffect(() => {
-    fetchData(searchText, activePage);
-  }, [activePage]);
-
- const renderLoadMoreButton = () => {
-   if(activePage !== data.totalPages) {
-     return (
+    return (
       <Button 
         label="Load more" 
         icon={<CircularProgress />} 
-        onClick={onLoad}
-      />
-     )
-    } else {
-     return (
-      <Button 
-        label="Load more" 
-        icon={<CircularProgress />} 
-        onClick={onLoad}
-        disabled
+        onClick={this.onLoad}
+        disabled={this.state.activePage === data.totalPages}
       /> 
-     )
-    }
+    )
  };
+
+ render() {
+  const { data } = this.props;
+  console.log('totalPage', data.totalPages);
 
   return (
     <div>
       <ItemList list={data.searchedItems}/>
-      { !data.searchedItems.length ?  null : renderLoadMoreButton() }
+      { !data.searchedItems.length ?  null : this.renderLoadMoreButton() }
     </div>
-
   );
+ }
 };
 
 export default MenuItemContent;

@@ -11,6 +11,12 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         totalPages: action.payload
       });
+
+    case 'CLEAR_DATA_OF_TVSHOWS': 
+      return Object.assign({}, state, {
+        totalPages: null,
+        searchedItems: []
+      });
     default: 
       return state;
   }
