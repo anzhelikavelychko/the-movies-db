@@ -1,13 +1,14 @@
 import React from 'react';
 
-import ItemList from './ItemList';
-
 import { Button } from '@rmwc/button';
 import { CircularProgress } from '@rmwc/circular-progress';
 
+import ItemsList from './ItemsList';
+import ItemDetails from './ItemDetails';
+
 
 class MenuItemContent extends React.Component {
-  state = {activePage: 1 };
+  state = {activePage: 1, selectedItem: null };
 
   componentDidMount() {
     const { searchText } = this.props;
@@ -43,13 +44,18 @@ class MenuItemContent extends React.Component {
     )
  };
 
- render() {
-  const { data } = this.props;
-  console.log('totalPage', data.totalPages);
+ onItemSelect = (item) => {
+   this.setState({selectedItem: item});
+ };
 
-  return (
+ render() {
+   const { selectedItem } = this.state;
+   const { data } = this.props;
+   
+   return (
     <div>
-      <ItemList list={data.searchedItems}/>
+      <ItemDetails item={selectedItem}/>
+      <ItemsList list={data.searchedItems} onItemSelect={this.onItemSelect} />
       { !data.searchedItems.length ?  null : this.renderLoadMoreButton() }
     </div>
   );

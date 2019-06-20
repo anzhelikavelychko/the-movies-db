@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "@rmwc/button": "^5.5.2",
+    "@rmwc/card": "^5.5.2",
     "@rmwc/circular-progress": "^5.5.2",
     "@rmwc/formfield": "^5.5.2",
     "@rmwc/image-list": "^5.5.2",
     "@rmwc/tabs": "^5.5.2",
     "@rmwc/textfield": "^5.5.2",
+    "@rmwc/typography": "^5.5.2",
     "axios": "^0.19.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

@@ -34,4 +34,8 @@ export const clearDataFromStore = () => dispatch => {
   dispatch({ type: 'CLEAR_DATA_OF_MOVIES' });
   dispatch({ type: 'CLEAR_DATA_OF_TVSHOWS' });
 };
+
+/*export const getItemDetailsById = (id) => async dispatch => {
+ 
+}; */
    
