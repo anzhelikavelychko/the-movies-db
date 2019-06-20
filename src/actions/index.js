@@ -35,7 +35,29 @@ export const clearDataFromStore = () => dispatch => {
   dispatch({ type: 'CLEAR_DATA_OF_TVSHOWS' });
 };
 
-/*export const getItemDetailsById = (id) => async dispatch => {
- 
-}; */
-   
+export const fetchMovieDetails = (id) => async dispatch =>  {
+  const response = await themoviedb.get(`/movie/${id}`, {
+    params: {
+      api_key: "9f8233e5843d6fc70a65f379d4909c34",
+      language: "en-US",
+    }
+    });
+
+  dispatch({ type: 'SET_SELECTED_ITEM', payload: response.data });
+};
+
+export const fetchShowDetails = (id) => async dispatch =>  {
+  const response = await themoviedb.get(`/tv/${id}`, {
+    params: {
+      api_key: "9f8233e5843d6fc70a65f379d4909c34",
+      language: "en-US",
+    }
+    });
+
+  dispatch({ type: 'SET_SELECTED_ITEM', payload: response.data });
+};
+
+export const clearSelectedItem = () => {
+  return { type: 'CLEAR_SELECTED_ITEM' }
+};
+

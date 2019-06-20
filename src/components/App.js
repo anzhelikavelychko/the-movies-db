@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchMovies, fetchTVShows, clearDataFromStore } from '../actions/index';
+import { 
+  fetchMovies, 
+  fetchTVShows, 
+  clearDataFromStore,
+  fetchMovieDetails,
+  fetchShowDetails,
+  clearSelectedItem 
+} from '../actions/index';
 
 import SearchField from './SearchField';
 import TabBarMenu from './TabBarMenu';
@@ -14,7 +21,10 @@ const App = ({
   tvShows,
   fetchMovies,
   fetchTVShows, 
-  clearDataFromStore 
+  clearDataFromStore,
+  fetchMovieDetails,
+  fetchShowDetails,
+  clearSelectedItem 
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
@@ -39,16 +49,28 @@ const App = ({
     fetchTVShows(searchText, page);
   };
 
+  const getMovieDetails = (id) => {
+    fetchMovieDetails(id);
+  };
+
+  const getShowDetails = (id) => {
+    fetchShowDetails(id);
+  }; 
+
   return ( 
     <div>
       <SearchField  inputValue = {inputValue} setInputValue={setInputValue} onSearchSubmit = {onSearchSubmit}/>
-      { (movies.searchedItems.length || tvShows.searchedItems.length) && <TabBarMenu activeTab={activeTab} setActiveTab={setActiveTab} /> }
+      {(movies.searchedItems.length || tvShows.searchedItems.length) ?
+        <TabBarMenu activeTab={activeTab} setActiveTab={setActiveTab} /> :
+        <div>Here will be some default message!</div> 
+      }
       { activeTab === 0 && 
         <MenuItemContent 
           fetchData={loadMoreMoviesAndShows} 
           data={moviesAndShows} 
           searchText={inputValue}
-          clearDataFromStore={clearDataFromStore} 
+          clearDataFromStore={clearDataFromStore}
+          clearSelectedItem={clearSelectedItem} 
         /> 
       } 
       { activeTab === 1 && 
@@ -57,6 +79,8 @@ const App = ({
           data={movies} 
           searchText={inputValue}
           clearDataFromStore={clearDataFromStore} 
+          getItemDetails={getMovieDetails}
+          clearSelectedItem={clearSelectedItem}
         /> 
       }
       { activeTab === 2 && 
@@ -65,6 +89,8 @@ const App = ({
           data={tvShows} 
           searchText={inputValue}
           clearDataFromStore={clearDataFromStore} 
+          getItemDetails={getShowDetails}
+          clearSelectedItem={clearSelectedItem}
         /> 
       }
     </div>
@@ -85,4 +111,13 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { fetchMovies, fetchTVShows, clearDataFromStore })(App);
+export default connect(
+  mapStateToProps, 
+  { 
+    fetchMovies, 
+    fetchTVShows, 
+    clearDataFromStore, 
+    fetchShowDetails, 
+    fetchMovieDetails,
+    clearSelectedItem  
+  })(App);

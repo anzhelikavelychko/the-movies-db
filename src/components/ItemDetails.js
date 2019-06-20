@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 
 import { Typography } from '@rmwc/typography'
 import {
@@ -49,4 +51,10 @@ const ItemDetails = ({ item }) => {
     );
 };
 
-export default ItemDetails;
+const mapStateToProps = (state) => {
+  return {
+    item: state.selectedItem
+  }
+}; 
+
+export default connect(mapStateToProps, null)(ItemDetails);
