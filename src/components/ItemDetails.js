@@ -22,9 +22,7 @@ const ItemDetails = ({ item }) => {
       <CardPrimaryAction>
         <CardMedia
           sixteenByNine
-          style={{
-            backgroundImage: `http://image.tmdb.org/t/p/w185/ + ${item.poster_path})`
-          }}
+          image={'http://image.tmdb.org/t/p/w185' + item.poster_path} 
         />
         <div style={{ padding: '0 1rem 1rem 1rem' }}>
             <Typography use="headline6" tag="h2">

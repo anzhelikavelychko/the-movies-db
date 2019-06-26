@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { 
-  fetchMovies, 
-  fetchTVShows, 
-  clearDataFromStore,
-  fetchMovieDetails,
-  fetchShowDetails,
-  clearSelectedItem 
-} from '../actions/index';
+
+import { fetchMulti, fetchMovies, fetchTvShows, cleanContent } from '../actions/index';
 
 import SearchField from './SearchField';
 import TabBarMenu from './TabBarMenu';
@@ -16,81 +10,73 @@ import MenuItemContent from './MenuItemContent';
 
 
 const App = ({ 
-  moviesAndShows, 
-  movies, 
-  tvShows,
-  fetchMovies,
-  fetchTVShows, 
-  clearDataFromStore,
-  fetchMovieDetails,
-  fetchShowDetails,
-  clearSelectedItem 
+  contentItems,
+  totalPages,
+  fetchMulti, 
+  fetchMovies, 
+  fetchTvShows, 
+  cleanContent
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
+  const onSearchSubmit = (searchText) => {
+    if (!searchText) {
+      return;
+    }
 
-  const onSearchSubmit = (text) => {
-    fetchMovies(text);
-    fetchTVShows(text);
+    if (contentItems.length) {
+      cleanContent();
+    }
+
+    if (activeTab === 0) {
+      fetchMulti(searchText);
+    } else if (activeTab === 1) {
+      fetchMovies(searchText);
+    } else if (activeTab === 2) {
+      fetchTvShows(searchText);
+    }
   };
 
-  const loadMoreMovies = (searchText, page) => {
-    fetchMovies(searchText, page);
-  };
+  const updateActiveTab = (tab) => {
+    if (contentItems.length) {
+      cleanContent();
+    }
 
-  const loadMoreShows = (searchText, page) => {
-    fetchTVShows(searchText, page);
+    setActiveTab(tab);
   };
-
-  const loadMoreMoviesAndShows = (searchText, page) => {
-    fetchMovies(searchText, page);
-    fetchTVShows(searchText, page);
-  };
-
-  const getMovieDetails = (id) => {
-    fetchMovieDetails(id);
-  };
-
-  const getShowDetails = (id) => {
-    fetchShowDetails(id);
-  }; 
 
   return ( 
     <div>
-      <SearchField  inputValue = {inputValue} setInputValue={setInputValue} onSearchSubmit = {onSearchSubmit}/>
-      {(movies.searchedItems.length || tvShows.searchedItems.length) ?
-        <TabBarMenu activeTab={activeTab} setActiveTab={setActiveTab} /> :
-        <div>Here will be some default message!</div> 
-      }
-      { activeTab === 0 && 
-        <MenuItemContent 
-          fetchData={loadMoreMoviesAndShows} 
-          data={moviesAndShows} 
+     <SearchField
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        onSearchSubmit={onSearchSubmit}
+      />
+      { contentItems.length ? <TabBarMenu activeTab={activeTab} setActiveTab={updateActiveTab} /> : null }
+      { activeTab === 0 &&
+        <MenuItemContent
+          fetchData={fetchMulti}
+          items={contentItems}
+          totalPages={totalPages}
           searchText={inputValue}
-          clearDataFromStore={clearDataFromStore}
-          clearSelectedItem={clearSelectedItem} 
         /> 
       } 
-      { activeTab === 1 && 
-        <MenuItemContent 
-          fetchData={loadMoreMovies} 
-          data={movies} 
+      { activeTab === 1 &&
+        <MenuItemContent
+          fetchData={fetchMovies}
+          items={contentItems}
+          totalPages={totalPages}
           searchText={inputValue}
-          clearDataFromStore={clearDataFromStore} 
-          getItemDetails={getMovieDetails}
-          clearSelectedItem={clearSelectedItem}
         /> 
       }
-      { activeTab === 2 && 
+      { activeTab === 2 &&
         <MenuItemContent 
-          fetchData={loadMoreShows} 
-          data={tvShows} 
+          fetchData={fetchTvShows}
+          items={contentItems}
+          totalPages={totalPages}
           searchText={inputValue}
-          clearDataFromStore={clearDataFromStore} 
-          getItemDetails={getShowDetails}
-          clearSelectedItem={clearSelectedItem}
         /> 
       }
     </div>
@@ -98,26 +84,20 @@ const App = ({
 };
 
 const mapStateToProps = (state) => {
-  const totalPages = (state.movies.totalPages > state.tvShows.totalPages) ? state.movies.totalPages : state.tvShows.totalPages
-  const moviesAndShows = {
-    searchedItems: [].concat(state.movies.searchedItems, state.tvShows.searchedItems), 
-    totalPages
-  };
+  const { contentItems, totalPages } = state.contentItems.data;
 
+  
   return {
-    moviesAndShows, 
-    movies: state.movies,
-    tvShows: state.tvShows
+    contentItems,
+    totalPages
   }
 }
 
 export default connect(
   mapStateToProps, 
   { 
+    fetchMulti, 
     fetchMovies, 
-    fetchTVShows, 
-    clearDataFromStore, 
-    fetchShowDetails, 
-    fetchMovieDetails,
-    clearSelectedItem  
+    fetchTvShows, 
+    cleanContent  
   })(App);

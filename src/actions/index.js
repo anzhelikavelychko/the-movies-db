@@ -1,47 +1,60 @@
 import themoviedb from '../api/themoviedb';
 
-export const fetchMovies =  (value, page=1) => async  dispatch => {
-  const response = await themoviedb.get('/search/movie', {
+const api_key = '9f8233e5843d6fc70a65f379d4909c34';
+const apiEndPoints = {
+  multiSearch: '/search/multi',
+  moviesSearch: '/search/movie',
+  tvShowsSearch: '/search/tv'
+}
+const fetchContent = (url, query, page) => async dispatch => {
+  const response = await themoviedb.get(url, {
     params: {
-      api_key: "9f8233e5843d6fc70a65f379d4909c34",
-      language: "en-US",
-      query: value,
-      include_adult: false,
-      page:page
+      api_key,
+      query,
+      page,
     }
-    });
+  });
 
-  dispatch({ type: 'FETCH_MOVIES', payload: response.data.results });
-  dispatch({type: 'RECEIVE_TOTAL_PAGES_FOR_MOVIES', payload: response.data.total_pages});
+  const { results, total_pages } = response.data;
+  dispatch({ type: 'RECEIVE_CONTENT', payload: { 
+    contentItems: results,
+    totalPages: total_pages
+  }});
 };
 
-export const fetchTVShows =  (value, page=1) =>  async dispatch => {
-  const response = await themoviedb.get('/search/tv', {
-    params: {
-      api_key: "9f8233e5843d6fc70a65f379d4909c34",
-      language: "en-US",
-      query: value,
-      include_adult: false,
-      page:page
-    }
-    });
+const fetchMulti = (searchText, page = 1) => {
+  return fetchContent(apiEndPoints.multiSearch, searchText, page);
+}
 
-  dispatch({ type: 'FETCH_TVSHOWS', payload: response.data.results });
-  dispatch({type: 'RECEIVE_TOTAL_PAGES_FOR_SHOWS', payload: response.data.total_pages});
-};
+const fetchMovies = (searchText, page = 1) => {
+  return fetchContent(apiEndPoints.moviesSearch, searchText, page);
+}
 
-export const clearDataFromStore = () => dispatch => {
-  dispatch({ type: 'CLEAR_DATA_OF_MOVIES' });
-  dispatch({ type: 'CLEAR_DATA_OF_TVSHOWS' });
-};
+const fetchTvShows = (searchText, page = 1) => {
+  return fetchContent(apiEndPoints.tvShowsSearch, searchText, page);
+}
 
-export const fetchMovieDetails = (id) => async dispatch =>  {
+const cleanContent = () => {
+  return {
+    type: 'CLEAN_CONTENT',
+  }
+}
+
+export {
+  fetchMulti,
+  fetchMovies,
+  fetchTvShows,
+  cleanContent,
+}
+
+/*export const fetchMovieDetails = (id) => async dispatch =>  {
   const response = await themoviedb.get(`/movie/${id}`, {
     params: {
       api_key: "9f8233e5843d6fc70a65f379d4909c34",
       language: "en-US",
     }
     });
+    
 
   dispatch({ type: 'SET_SELECTED_ITEM', payload: response.data });
 };
@@ -53,11 +66,11 @@ export const fetchShowDetails = (id) => async dispatch =>  {
       language: "en-US",
     }
     });
-
+    
   dispatch({ type: 'SET_SELECTED_ITEM', payload: response.data });
 };
 
 export const clearSelectedItem = () => {
   return { type: 'CLEAR_SELECTED_ITEM' }
-};
+};*/
 

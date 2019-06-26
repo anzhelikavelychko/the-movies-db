@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import moviesReducer from './moviesReducer';
-import tvShowsReducer from './tvShowsReducer';
+import contentItemsReducer from './contentItemsReducer';
 import selectedItemReducer from './selectedItemReducer';
 
 export default combineReducers({
-  movies: moviesReducer,
-  tvShows: tvShowsReducer,
+  contentItems: contentItemsReducer,
   selectedItem: selectedItemReducer
 });
