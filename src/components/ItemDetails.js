@@ -12,7 +12,6 @@ import '@material/typography/dist/mdc.typography.css';
 import '@material/card/dist/mdc.card.css';
 
 const ItemDetails = ({ item }) => {
-  console.log(item);
   if (!item) {
     return <div>Loading ....</div>
   }

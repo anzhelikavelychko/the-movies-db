@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchMulti, fetchMovies, fetchTvShows, cleanContent } from '../actions/index';
+import { 
+  fetchMulti, 
+  fetchMovies, 
+  fetchTvShows, 
+  cleanContent,
+  fetchMovieDetails,
+  fetchTvShowDetails 
+} from '../actions/index';
 
 import SearchField from './SearchField';
 import TabBarMenu from './TabBarMenu';
@@ -15,7 +22,9 @@ const App = ({
   fetchMulti, 
   fetchMovies, 
   fetchTvShows, 
-  cleanContent
+  cleanContent,
+  fetchMovieDetails,
+  fetchTvShowDetails
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
@@ -47,6 +56,20 @@ const App = ({
     setActiveTab(tab);
   };
 
+  const getItemDetails = (item) => {
+    if (activeTab === 0) {
+      if (item.media_type === 'movie') {
+        fetchMovieDetails(item.id);
+      } else if (item.media_type === 'tv') {
+        fetchTvShowDetails(item.id);
+      }
+    } else if (activeTab === 1) {
+      fetchMovieDetails(item.id);
+    } else if (activeTab === 2) {
+      fetchTvShowDetails(item.id);
+    }
+  };
+
   return ( 
     <div>
      <SearchField
@@ -61,6 +84,7 @@ const App = ({
           items={contentItems}
           totalPages={totalPages}
           searchText={inputValue}
+          fetchDetails={getItemDetails}
         /> 
       } 
       { activeTab === 1 &&
@@ -69,6 +93,7 @@ const App = ({
           items={contentItems}
           totalPages={totalPages}
           searchText={inputValue}
+          fetchDetails={getItemDetails}
         /> 
       }
       { activeTab === 2 &&
@@ -77,6 +102,7 @@ const App = ({
           items={contentItems}
           totalPages={totalPages}
           searchText={inputValue}
+          fetchDetails={getItemDetails}
         /> 
       }
     </div>
@@ -85,8 +111,6 @@ const App = ({
 
 const mapStateToProps = (state) => {
   const { contentItems, totalPages } = state.contentItems.data;
-
-  
   return {
     contentItems,
     totalPages
@@ -99,5 +123,7 @@ export default connect(
     fetchMulti, 
     fetchMovies, 
     fetchTvShows, 
-    cleanContent  
+    cleanContent,
+    fetchMovieDetails,
+    fetchTvShowDetails  
   })(App);

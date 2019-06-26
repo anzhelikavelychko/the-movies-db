@@ -9,7 +9,7 @@ const ItemList = ({ list, onItemSelect }) => {
 
   const renderList = () => ( 
     <ImageList>
-      {list.map(item => <ItemComponent item={item} onItemSelect={onItemSelect} /> )
+      {list.map(item => <ItemComponent key={item.id} item={item} onItemSelect={onItemSelect} /> )
       }
       </ImageList>
   );

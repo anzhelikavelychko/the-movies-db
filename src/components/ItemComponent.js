@@ -13,7 +13,7 @@ const ItemComponent = ({ item, onItemSelect }) => {
     return (
         <ImageListItem
           style={{ margin: '5px', width: 'calc(100% / 6 - 5px)' }}
-          onClick={ () => onItemSelect(item.id)}
+          onClick={ () => onItemSelect(item)}
         >
           <ImageListImageAspectContainer
             style={{ paddingBottom: 'calc(100% / 0.8)' }}

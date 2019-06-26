@@ -44,16 +44,16 @@ class MenuItemContent extends React.Component {
     )
  };
 
-  /*onItemSelect = (id) => {
-    this.props.getItemDetails(id);
-  };*/
+  onItemSelect = (item) => {
+    this.props.fetchDetails(item);
+  };
 
  render() {
    const { items } = this.props;
    
    return (
     <div>
-      <ItemDetails/>
+      <ItemDetails />
       <ItemsList list={items} onItemSelect={this.onItemSelect} />
       { !items.length ?  null : this.renderLoadMoreButton() }
     </div>
