@@ -7,7 +7,8 @@ import {
   fetchTvShows, 
   cleanContent,
   fetchMovieDetails,
-  fetchTvShowDetails 
+  fetchTvShowDetails,
+  clearSelectedItem,
 } from '../actions/index';
 
 import SearchField from './SearchField';
@@ -24,7 +25,8 @@ const App = ({
   fetchTvShows, 
   cleanContent,
   fetchMovieDetails,
-  fetchTvShowDetails
+  fetchTvShowDetails,
+  clearSelectedItem,
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
@@ -51,6 +53,7 @@ const App = ({
   const updateActiveTab = (tab) => {
     if (contentItems.length) {
       cleanContent();
+      clearSelectedItem();
     }
 
     setActiveTab(tab);
@@ -125,5 +128,6 @@ export default connect(
     fetchTvShows, 
     cleanContent,
     fetchMovieDetails,
-    fetchTvShowDetails  
+    fetchTvShowDetails,
+    clearSelectedItem, 
   })(App);

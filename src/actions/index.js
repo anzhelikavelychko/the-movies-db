@@ -54,6 +54,7 @@ const fetchItemDetails = (url) => async dispatch => {
 
 const fetchMovieDetails = (id) => {
   const url = apiEndPoints.movieDetail + id;
+
   return fetchItemDetails(url);
 };
 
@@ -75,6 +76,6 @@ export {
   fetchItemDetails,
   fetchMovieDetails,
   fetchTvShowDetails,
-  clearSelectedItem
+  clearSelectedItem,
 }
 

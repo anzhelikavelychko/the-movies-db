@@ -1,56 +1,69 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-
-import { Typography } from '@rmwc/typography'
-import {
-  Card, 
-  CardMedia,
-  CardPrimaryAction,
-} from '@rmwc/card';
+import { ImageListImage } from '@rmwc/image-list';
 import '@material/typography/dist/mdc.typography.css';
-import '@material/card/dist/mdc.card.css';
 
 const ItemDetails = ({ item }) => {
   if (!item) {
     return <div>Loading ....</div>
   }
-  
-  return(
-    <Card style={{ width: '21rem' }}>
-      <CardPrimaryAction>
-        <CardMedia
-          sixteenByNine
-          image={'http://image.tmdb.org/t/p/w185' + item.poster_path} 
+
+  console.log(item);
+
+  const itemGenres = item.genres.map( genre => (
+    <li key={genre.id}>{genre.name}</li>
+  ));
+
+  const productionCompanies = item.production_companies.map( company => (
+    <li key={company.id}>{company.name}</li>
+  ));
+
+  const renderInfo = () => {
+    return (
+      <div>
+        <ImageListImage 
+          src={"http://image.tmdb.org/t/p/w185/" + item.poster_path} 
+          style={{ margin: '2px', width: 'calc(100% / 5 - 4.2px)' }}
         />
-        <div style={{ padding: '0 1rem 1rem 1rem' }}>
-            <Typography use="headline6" tag="h2">
-              {item.title}
-            </Typography>
-            <Typography
-              use="subtitle2"
-              tag="h3"
-              theme="textSecondaryOnBackground"
-              style={{ marginTop: '-1rem' }}
-            >
-              by Kurt Wagner
-            </Typography>
-            <Typography
-              use="body1"
-              tag="div"
-              theme="textSecondaryOnBackground"
-            >
-             {item.overview}
-            </Typography>
-          </div>
-        </CardPrimaryAction>
-      </Card> 
+        <div className="item_title" style={{ padding: '0 1rem 1rem 1rem' }}>
+          <h2>
+            {item.title}
+          </h2>
+        </div>
+        <div className="rating">
+          <p>{item.popularity}</p>
+        </div>
+        <div className="genres">
+          <ul>Genres: {itemGenres}</ul>
+          <p>{item.release_date}</p>
+        </div>
+        { item.production_companies.length ? (
+          <div className="production_companies">
+            <ul>{productionCompanies.length > 1 ? <p>Production Companies :</p> : <p>Production Company :</p> } 
+              {productionCompanies}
+            </ul> 
+          </div> ) : null 
+        }
+        <div className="links">
+          { item.homepage && <a href={item.homepage}>Homepage</a> }
+          {item.imdb_id && <a href={`https://www.imdb.com/title/${item.imdb_id}`}>IMDB</a>}
+        </div>
+        <div className="overview">
+          <p>{item.overview}</p>
+        </div>
+      </div>
+    );
+  }
+
+  return(
+    <>{renderInfo()}</>
     );
 };
 
 const mapStateToProps = (state) => {
   return {
-    item: state.selectedItem
+    item: state.selectedItem,
   }
 }; 
 

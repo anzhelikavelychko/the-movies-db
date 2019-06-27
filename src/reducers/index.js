@@ -4,5 +4,5 @@ import selectedItemReducer from './selectedItemReducer';
 
 export default combineReducers({
   contentItems: contentItemsReducer,
-  selectedItem: selectedItemReducer
+  selectedItem: selectedItemReducer,
 });

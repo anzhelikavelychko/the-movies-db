@@ -1207,6 +1207,11 @@
     "@material/theme" "^1.1.0"
     "@material/typography" "^1.0.0"
 
+"@material/layout-grid@^0.41.0":
+  version "0.41.0"
+  resolved "https://registry.yarnpkg.com/@material/layout-grid/-/layout-grid-0.41.0.tgz#2e7d3be76313e0684d573b10c2c6a88b3230d251"
+  integrity sha512-Sa5RNoTGgfIojqJ9E94p7/k11V6q/tGk7HwKi4AQNAPjxield0zcl3G/SbsSb8YSHoK+D+7OXDN+n11x6EqF7g==
+
 "@material/line-ripple@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@material/line-ripple/-/line-ripple-1.1.0.tgz#0fef69c14ddf42877f10eed05c1a2489808f1cf4"
@@ -1442,6 +1447,15 @@
   integrity sha512-TXtkyXT2TafQ2Np+30NCRUpqaVbVkg8c5fcMuzGE8a6v7anhvCGKgjV9O2dTa7w8H34k/oBa1Ti/wgA2dWJHyA==
   dependencies:
     "@material/form-field" "^2.0.0"
+    "@rmwc/base" "^5.5.2"
+    "@rmwc/types" "^5.5.2"
+
+"@rmwc/grid@^5.5.2":
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/@rmwc/grid/-/grid-5.5.2.tgz#a5d9c5a3b7c4e64456f16681ef09036381099a41"
+  integrity sha512-GQBBDE4kq+Drd8g3ejOLVz2t63fkNjEuwY6XiyYm4wD5Ls9FmO1blSMu3rVgG1+9FtV0nTyDXAUG65JokwzqnA==
+  dependencies:
+    "@material/layout-grid" "^0.41.0"
     "@rmwc/base" "^5.5.2"
     "@rmwc/types" "^5.5.2"
 
