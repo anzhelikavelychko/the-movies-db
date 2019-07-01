@@ -9,8 +9,6 @@ const ItemDetails = ({ item }) => {
     return <div>Loading ....</div>
   }
 
-  console.log(item);
-
   const itemGenres = item.genres.map( genre => (
     <li key={genre.id}>{genre.name}</li>
   ));
@@ -42,6 +40,15 @@ const ItemDetails = ({ item }) => {
           <div className="production_companies">
             <ul>{productionCompanies.length > 1 ? <p>Production Companies :</p> : <p>Production Company :</p> } 
               {productionCompanies}
+            </ul> 
+          </div> ) : null 
+        }
+         { item.networks ? (
+          <div className="networks">
+            <ul>{item.networks.length > 1 ? <p>Networks:</p> : <p>Network:</p> } 
+              {item.networks.map( network => (
+                <li key={network.id}>{network.name}</li>
+              ))}
             </ul> 
           </div> ) : null 
         }

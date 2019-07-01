@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
+
 import { 
   fetchMulti, 
   fetchMovies, 
   fetchTvShows, 
   cleanContent,
-  fetchMovieDetails,
-  fetchTvShowDetails,
+  requestMovieDetails,
+  requestTvShowDetails,
   clearSelectedItem,
 } from '../actions/index';
 
@@ -24,9 +25,9 @@ const App = ({
   fetchMovies, 
   fetchTvShows, 
   cleanContent,
-  fetchMovieDetails,
-  fetchTvShowDetails,
-  clearSelectedItem,
+  requestMovieDetails,
+  requestTvShowDetails,
+  clearSelectedItem
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
@@ -62,14 +63,14 @@ const App = ({
   const getItemDetails = (item) => {
     if (activeTab === 0) {
       if (item.media_type === 'movie') {
-        fetchMovieDetails(item.id);
+        requestMovieDetails(item.id);
       } else if (item.media_type === 'tv') {
-        fetchTvShowDetails(item.id);
+        requestTvShowDetails(item.id);
       }
     } else if (activeTab === 1) {
-      fetchMovieDetails(item.id);
+      requestMovieDetails(item.id);
     } else if (activeTab === 2) {
-      fetchTvShowDetails(item.id);
+      requestTvShowDetails(item.id);
     }
   };
 
@@ -99,7 +100,7 @@ const App = ({
           fetchDetails={getItemDetails}
         /> 
       }
-      { activeTab === 2 &&
+        { activeTab === 2 &&
         <MenuItemContent 
           fetchData={fetchTvShows}
           items={contentItems}
@@ -127,7 +128,7 @@ export default connect(
     fetchMovies, 
     fetchTvShows, 
     cleanContent,
-    fetchMovieDetails,
-    fetchTvShowDetails,
+    requestMovieDetails,
+    requestTvShowDetails,
     clearSelectedItem, 
   })(App);

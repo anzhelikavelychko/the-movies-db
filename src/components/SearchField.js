@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { cleanContent, clearSelectedItem } from '../actions/index';
+
 import { TextField } from '@rmwc/textfield';
 import { Button } from '@rmwc/button'
 import '@material/textfield/dist/mdc.textfield.css';
@@ -8,7 +12,7 @@ const SearchField = ({
   inputValue, 
   setInputValue, 
   onSearchSubmit, 
-  clearDataFromStore, 
+  cleanContent, 
   clearSelectedItem 
 }) => {
 
@@ -22,7 +26,7 @@ const SearchField = ({
   };
 
   const clearSearchField = () => {
-    clearDataFromStore();
+    cleanContent();
     clearSelectedItem();
     setInputValue('');
 
@@ -49,4 +53,4 @@ const SearchField = ({
   );
 };
 
-export default SearchField;
+export default connect(null, { cleanContent, clearSelectedItem })(SearchField);
