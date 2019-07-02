@@ -18,7 +18,10 @@ const ItemComponent = ({ item, onItemSelect }) => {
           <ImageListImageAspectContainer
             style={{ paddingBottom: 'calc(100% / 0.8)' }}
           >
-            <ImageListImage src={"http://image.tmdb.org/t/p/w185/" + item.poster_path} />
+            {(item.poster_path === null || item.poster_path === undefined) ? 
+              <ImageListImage alt= {item.title}/> :
+              <ImageListImage src={"http://image.tmdb.org/t/p/w185/" + item.poster_path} /> 
+            }
           </ImageListImageAspectContainer>
           <ImageListSupporting>
             <ImageListLabel>{item.title}</ImageListLabel>

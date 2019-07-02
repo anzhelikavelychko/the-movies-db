@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import { 
@@ -9,7 +9,8 @@ import {
   requestMovieDetails,
   requestTvShowDetails,
   clearSelectedItem,
-  setLoading
+  setLoading,
+  clearSelectedEpisode
 } from '../actions/index';
 
 import SearchField from './SearchField';
@@ -30,7 +31,8 @@ const App = ({
   clearSelectedItem,
   selectedItem,
   setLoading,
-  loading
+  loading,
+  clearSelectedEpisode
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
@@ -96,6 +98,8 @@ const App = ({
           fetchDetails={getItemDetails}
           selectedItem={selectedItem}
           loading={loading}
+          setLoading={setLoading}
+          clearSelectedEpisode={clearSelectedEpisode}
         /> 
       } 
       { activeTab === 1 &&
@@ -107,6 +111,8 @@ const App = ({
           fetchDetails={getItemDetails}
           selectedItem={selectedItem}
           loading={loading}
+          setLoading={setLoading}
+          clearSelectedEpisode={clearSelectedEpisode}
         /> 
       }
         { activeTab === 2 &&
@@ -118,6 +124,8 @@ const App = ({
           fetchDetails={getItemDetails}
           selectedItem={selectedItem}
           loading={loading}
+          setLoading={setLoading}
+          clearSelectedEpisode={clearSelectedEpisode}
         /> 
       }
     </>
@@ -145,5 +153,6 @@ export default connect(
     requestMovieDetails,
     requestTvShowDetails,
     clearSelectedItem,
-    setLoading 
+    setLoading,
+    clearSelectedEpisode 
   })(App);

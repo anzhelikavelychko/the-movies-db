@@ -3,18 +3,21 @@ import { Button } from '@rmwc/button';
 import ItemsList from './ItemsList';
 import ItemDetails from './ItemDetails';
 import LoaderHOC from '../HOC/LoaderHOC';
+
 import './MenuItemContent.css';
+import './Loader.css';
 
 class MenuItemContent extends React.Component {
   state = { activePage: 1, sidebar: false };
 
-  componentDidMount() {
-    console.log('componentDidMount')
-    const { searchText } = this.props;
+  async componentDidMount() {
+    const { searchText, setLoading } = this.props;
     const { activePage } = this.state;
     if (searchText.length) {
-      this.props.fetchData(searchText, activePage);
+      setLoading(true);
+      await this.props.fetchData(searchText, activePage);
     } 
+    setLoading(false);
   }
 
   componentDidUpdate(prevProps) {
@@ -23,13 +26,15 @@ class MenuItemContent extends React.Component {
     }
   }
 
-  onLoad = () => {
-    const { searchText } = this.props;
+  onLoad = async () => {
+    const { searchText, setLoading } = this.props;
     const nextPage = this.state.activePage + 1;
     
     this.setState({activePage: nextPage});
+    setLoading(true);
 
-    this.props.fetchData(searchText, nextPage);
+    await this.props.fetchData(searchText, nextPage);
+    setLoading(false);
   };
   
   renderLoadMoreButton = () => {
@@ -51,6 +56,7 @@ class MenuItemContent extends React.Component {
 
   closeSidebar = () => {
     this.setState({ sidebar: false });
+    this.props.clearSelectedEpisode();
   }
 
  render() {
@@ -74,4 +80,4 @@ class MenuItemContent extends React.Component {
   }
 };
 
-export default MenuItemContent;
+export default LoaderHOC(MenuItemContent);

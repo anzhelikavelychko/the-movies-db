@@ -32,3 +32,10 @@
 .close:after {
     transform: rotate(-45deg);
 }
+
+.overview {
+    display: flex;
+    overflow-y: scroll;
+    max-height: 100px;
+    border: 2px solid lightgray;
+}

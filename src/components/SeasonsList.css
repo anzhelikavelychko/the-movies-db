@@ -1,0 +1,20 @@
+.seasons_list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.seasons_list div {
+    margin: 4px;
+    padding: 2px;
+    border-right: 2px solid lightslategray;
+    background: lightslategrey;
+    border-radius: 5px;
+    color: white;
+}
+
+.selected_episode {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid lightslategrey;
+}

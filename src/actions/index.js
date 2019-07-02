@@ -9,6 +9,10 @@ export const CLEAR_SELECTED_ITEM = 'CLEAR_SELECTED_ITEM';
 export const REQUEST_MOVIE_DETAILS = 'REQUEST_MOVIE_DETAILS';
 export const REQUEST_TVSHOW_DETAILS = 'REQUEST_TVSHOW_DETAILS';
 export const SET_LOADING = 'SET_LOADING';
+export const REQUEST_EPISODES = 'REQUEST_EPISODES';
+export const RECEIVE_EPISODES  = 'RECEIVE_EPISODES';
+export const CLEAR_SELECTED_EPISODE = 'CLEAR_SELECTED_EPISODE';
+
 
 
 const apiEndPoints = {
@@ -35,6 +39,13 @@ const fetchTvShows = (searchText, page = 1) => (
   }
 );
 
+const fetchEpisodes = (tvId, number) => (
+  { type: REQUEST_EPISODES,
+    payload: { tvId, number }
+  }
+);
+const receiveEpisodes = (data) => ({ type: RECEIVE_EPISODES, payload: data});
+
 const requestMovieDetails = (id) => {
   const url = apiEndPoints.movieDetail + id;
 
@@ -56,67 +67,7 @@ const receiveContentData = (data) => ({ type: RECEIVE_CONTENT, payload: {
 const cleanContent = () => ({ type: CLEAN_CONTENT });
 const clearSelectedItem = () => ({ type: CLEAR_SELECTED_ITEM });
 const setLoading = (loading) => ({ type: SET_LOADING, payload: loading });
-
-
-/*const fetchContent = (url, query, page) => async dispatch => {
-  const response = await themoviedb.get(url, {
-    params: {
-      api_key,
-      query,
-      page,
-    }
-  });
-
-  const { results, total_pages } = response.data;
-  dispatch({ type: RECEIVE_CONTENT, payload: { 
-    contentItems: results,
-    totalPages: total_pages
-  }});
-};
-
-const fetchMulti = (searchText, page = 1) => {
-  return fetchContent(apiEndPoints.multiSearch, searchText, page);
-};
-
-const fetchMovies = (searchText, page = 1) => {
-  return fetchContent(apiEndPoints.moviesSearch, searchText, page);
-};
-
-const fetchTvShows = (searchText, page = 1) => {
-  return fetchContent(apiEndPoints.tvShowsSearch, searchText, page);
-};
-
-const cleanContent = () => {
-  return {
-    type: CLEAN_CONTENT,
-  }
-};
-
-const fetchItemDetails = (url) => async dispatch => {
-  const response = await themoviedb.get(url, {
-    params: {
-      api_key
-    }
-  });
-
-  dispatch({ type: SET_SELECTED_ITEM, payload: response.data });
-};
-
-const requestMovieDetails = (id) => {
-  const url = apiEndPoints.movieDetail + id;
-
-  return fetchItemDetails(url);
-};
-
-const requestTvShowDetails = (id) => {
-  const url = apiEndPoints.showDetail + id;
-
-  return fetchItemDetails(url);
-};
-
-const clearSelectedItem = () => {
-  return { type: CLEAR_SELECTED_ITEM }
-};*/
+const clearSelectedEpisode = () => ({ type: CLEAR_SELECTED_EPISODE});
 
 export {
   fetchMulti,
@@ -128,6 +79,9 @@ export {
   requestMovieDetails,
   requestTvShowDetails,
   clearSelectedItem,
-  setLoading
+  setLoading,
+  fetchEpisodes,
+  receiveEpisodes,
+  clearSelectedEpisode
 }
 

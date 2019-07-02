@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import './LoaderHOC.css';
+import '../components/Loader.css';
 
 const LoaderHOC = (WrappedComponent) => {
     return class LoaderHOC extends Component {
         render () {
             return (
-                this.props.loading ? <div className="loading"></div> : <WrappedComponent  {...this.props}/>
+                this.props.items.lenght === 0 ? <div className="loading"></div> : <WrappedComponent  {...this.props}/>
             );
         }
     };

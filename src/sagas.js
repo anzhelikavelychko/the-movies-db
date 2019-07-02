@@ -1,6 +1,6 @@
 import { call, put, takeEvery, all } from 'redux-saga/effects';
 
-import { fetchData, fetchDetails } from './api/themoviedb';
+import { fetchData, fetchDetails, fetchEpisodes } from './api/themoviedb';
 
 import {
   REQUEST_MULTI_DATA,
@@ -8,12 +8,14 @@ import {
   REQUEST_SHOWS_DATA,
   REQUEST_MOVIE_DETAILS,
   REQUEST_TVSHOW_DETAILS, 
+  REQUEST_EPISODES,
   receiveContentData,
-  receiveSelectedItem 
+  receiveSelectedItem,
+  receiveEpisodes 
 } from './actions/index';
 
 
-function* fetchContent (action) {
+function* fetchContent(action) {
   const { url, query, page } = action.payload;
   try {
     const response = yield call(fetchData, url, query, page);
@@ -24,7 +26,7 @@ function* fetchContent (action) {
   }
 };
 
-function* fetchItemDetails (action) {
+function* fetchItemDetails(action) {
   try {
     const response = yield call(fetchDetails, action.payload);
 
@@ -33,6 +35,19 @@ function* fetchItemDetails (action) {
       console.log(error);
   }
 };
+
+function* fetchSeasonEpisodes(action) {
+  const { tvId, number } = action.payload;
+  try {
+    const response = yield call(fetchEpisodes, tvId, number);
+
+    yield put(receiveEpisodes(response));
+  } catch (error) {
+      console.log(error);
+  }
+};
+
+
 
 function* watchFetchingData() {
     yield takeEvery(REQUEST_MULTI_DATA, fetchContent);
@@ -44,10 +59,15 @@ function* watchGettingDetails() {
   yield takeEvery(REQUEST_MOVIE_DETAILS, fetchItemDetails);
   yield takeEvery(REQUEST_TVSHOW_DETAILS, fetchItemDetails)
 };
+
+function* watchFetchingEpisodes() {
+  yield takeEvery(REQUEST_EPISODES, fetchSeasonEpisodes);
+}
   
 export default function* rootSaga() {
   yield all([
     watchFetchingData(),
-    watchGettingDetails()
+    watchGettingDetails(),
+    watchFetchingEpisodes()
   ])
 };
