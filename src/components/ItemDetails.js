@@ -4,11 +4,9 @@ import { connect } from 'react-redux';
 import { ImageListImage } from '@rmwc/image-list';
 import '@material/typography/dist/mdc.typography.css';
 
-const ItemDetails = ({ item }) => {
-  if (!item) {
-    return <div>Loading ....</div>
-  }
+import './ItemDetails.css';
 
+const ItemDetails = ({ item, closeSidebar }) => {
   const itemGenres = item.genres.map( genre => (
     <li key={genre.id}>{genre.name}</li>
   ));
@@ -17,13 +15,13 @@ const ItemDetails = ({ item }) => {
     <li key={company.id}>{company.name}</li>
   ));
 
-  const renderInfo = () => {
-    return (
-      <div>
+  return(
+    <div className="item_details">
         <ImageListImage 
           src={"http://image.tmdb.org/t/p/w185/" + item.poster_path} 
           style={{ margin: '2px', width: 'calc(100% / 5 - 4.2px)' }}
         />
+        <a href="#" className="close" onClick={closeSidebar}></a>
         <div className="item_title" style={{ padding: '0 1rem 1rem 1rem' }}>
           <h2>
             {item.title}
@@ -60,12 +58,7 @@ const ItemDetails = ({ item }) => {
           <p>{item.overview}</p>
         </div>
       </div>
-    );
-  }
-
-  return(
-    <>{renderInfo()}</>
-    );
+  );
 };
 
 const mapStateToProps = (state) => {

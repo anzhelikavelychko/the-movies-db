@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-
 
 import { 
   fetchMulti, 
@@ -10,6 +9,7 @@ import {
   requestMovieDetails,
   requestTvShowDetails,
   clearSelectedItem,
+  setLoading
 } from '../actions/index';
 
 import SearchField from './SearchField';
@@ -27,13 +27,16 @@ const App = ({
   cleanContent,
   requestMovieDetails,
   requestTvShowDetails,
-  clearSelectedItem
+  clearSelectedItem,
+  selectedItem,
+  setLoading,
+  loading
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
   const [inputValue, setInputValue] = useState('');
 
-  const onSearchSubmit = (searchText) => {
+  const onSearchSubmit = async (searchText) => {
     if (!searchText) {
       return;
     }
@@ -42,13 +45,15 @@ const App = ({
       cleanContent();
     }
 
+    setLoading(true);
     if (activeTab === 0) {
-      fetchMulti(searchText);
+      await fetchMulti(searchText);
     } else if (activeTab === 1) {
-      fetchMovies(searchText);
+      await fetchMovies(searchText);
     } else if (activeTab === 2) {
-      fetchTvShows(searchText);
+      await fetchTvShows(searchText);
     }
+    setLoading(false);
   };
 
   const updateActiveTab = (tab) => {
@@ -75,8 +80,8 @@ const App = ({
   };
 
   return ( 
-    <div>
-     <SearchField
+    <>
+      <SearchField
         inputValue={inputValue}
         setInputValue={setInputValue}
         onSearchSubmit={onSearchSubmit}
@@ -89,6 +94,8 @@ const App = ({
           totalPages={totalPages}
           searchText={inputValue}
           fetchDetails={getItemDetails}
+          selectedItem={selectedItem}
+          loading={loading}
         /> 
       } 
       { activeTab === 1 &&
@@ -98,6 +105,8 @@ const App = ({
           totalPages={totalPages}
           searchText={inputValue}
           fetchDetails={getItemDetails}
+          selectedItem={selectedItem}
+          loading={loading}
         /> 
       }
         { activeTab === 2 &&
@@ -107,17 +116,22 @@ const App = ({
           totalPages={totalPages}
           searchText={inputValue}
           fetchDetails={getItemDetails}
+          selectedItem={selectedItem}
+          loading={loading}
         /> 
       }
-    </div>
+    </>
   );
 };
 
 const mapStateToProps = (state) => {
   const { contentItems, totalPages } = state.contentItems.data;
+  const { loading } = state.contentItems;
   return {
     contentItems,
-    totalPages
+    totalPages,
+    selectedItem: state.selectedItem,
+    loading
   }
 }
 
@@ -130,5 +144,6 @@ export default connect(
     cleanContent,
     requestMovieDetails,
     requestTvShowDetails,
-    clearSelectedItem, 
+    clearSelectedItem,
+    setLoading 
   })(App);

@@ -1,15 +1,15 @@
 import React from 'react';
-
 import { Button } from '@rmwc/button';
-
 import ItemsList from './ItemsList';
 import ItemDetails from './ItemDetails';
-
+import LoaderHOC from '../HOC/LoaderHOC';
+import './MenuItemContent.css';
 
 class MenuItemContent extends React.Component {
-  state = { activePage: 1 };
+  state = { activePage: 1, sidebar: false };
 
   componentDidMount() {
+    console.log('componentDidMount')
     const { searchText } = this.props;
     const { activePage } = this.state;
     if (searchText.length) {
@@ -46,19 +46,32 @@ class MenuItemContent extends React.Component {
 
   onItemSelect = (item) => {
     this.props.fetchDetails(item);
+    this.setState({ sidebar: true });
   };
 
+  closeSidebar = () => {
+    this.setState({ sidebar: false });
+  }
+
  render() {
-   const { items } = this.props;
-   
+   const { items, selectedItem, loading } = this.props;
+
+   if (loading) {
+     return <div className="loading"></div>;
+   }
+
    return (
-    <div>
-      <ItemDetails />
-      <ItemsList list={items} onItemSelect={this.onItemSelect} />
-      { !items.length ?  null : this.renderLoadMoreButton() }
-    </div>
-  );
- }
+      <div className="menu_item_content">
+        <ItemsList 
+          list={items}
+          onItemSelect={this.onItemSelect}
+          blurred={this.state.sidebar}
+        />
+        {selectedItem && this.state.sidebar  ? <ItemDetails closeSidebar={this.closeSidebar} /> : null}
+        {!items.length ?  null : this.renderLoadMoreButton()}
+      </div>
+   );
+  }
 };
 
 export default MenuItemContent;

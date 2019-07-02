@@ -2,7 +2,8 @@ const initialState = {
     data: {
       contentItems: [],
       totalPages: null
-    }
+    },
+    loading: false
   };
   
   export default (state = initialState, action) => {
@@ -22,6 +23,11 @@ const initialState = {
             contentItems: [],
             totalPages: null
           }
+        }
+      case 'SET_LOADING': 
+        return {
+          ...state,
+          loading: action.payload
         }
       default: 
         return state;

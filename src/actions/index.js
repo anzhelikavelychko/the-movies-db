@@ -8,6 +8,7 @@ export const RECEIVE_SELECTED_ITEM = 'RECEIVE_SELECTED_ITEM';
 export const CLEAR_SELECTED_ITEM = 'CLEAR_SELECTED_ITEM';
 export const REQUEST_MOVIE_DETAILS = 'REQUEST_MOVIE_DETAILS';
 export const REQUEST_TVSHOW_DETAILS = 'REQUEST_TVSHOW_DETAILS';
+export const SET_LOADING = 'SET_LOADING';
 
 
 const apiEndPoints = {
@@ -52,8 +53,9 @@ const receiveContentData = (data) => ({ type: RECEIVE_CONTENT, payload: {
   totalPages: data.total_pages
 }});
 
-const cleanContent = () => ({type: CLEAN_CONTENT });
+const cleanContent = () => ({ type: CLEAN_CONTENT });
 const clearSelectedItem = () => ({ type: CLEAR_SELECTED_ITEM });
+const setLoading = (loading) => ({ type: SET_LOADING, payload: loading });
 
 
 /*const fetchContent = (url, query, page) => async dispatch => {
@@ -125,6 +127,7 @@ export {
   receiveSelectedItem,
   requestMovieDetails,
   requestTvShowDetails,
-  clearSelectedItem
+  clearSelectedItem,
+  setLoading
 }
 
