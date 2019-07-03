@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchEpisodes } from '../actions/index';
+import { fetchEpisodes, clearSelectedEpisode } from '../actions/index';
 import SeasonComponent from './SeasonComponent';
 import EpisodeComponent from './EpisodeComponent';
 
 import './SeasonsList.css';
 
-const SeasonsList = ({ tvId, seasons, fetchEpisodes, episodes }) => {
+const SeasonsList = ({ 
+    tvId, 
+    seasons, 
+    fetchEpisodes, 
+    episodes,
+    clearSelectedEpisode 
+}) => {
     const [selectedEpisode, setSelectedEpisode] = useState(null);
 
-    const onSeasonClick = (number) => {
+    const onSeasonClick = async (number) => {
+        setSelectedEpisode(null);
+        await clearSelectedEpisode();
         fetchEpisodes(tvId, number);
     };
+
     const renderList = seasons.map((season) => 
         <SeasonComponent 
             key={ season.id} 
@@ -19,6 +28,7 @@ const SeasonsList = ({ tvId, seasons, fetchEpisodes, episodes }) => {
             onSeasonClick={onSeasonClick}
         />
     );
+
     const onSelectEpisode = (id) => {
        const selected = episodes.find( episode => episode.id === id);
        setSelectedEpisode(selected);
@@ -44,4 +54,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, { fetchEpisodes })(SeasonsList);
+export default connect(mapStateToProps, { fetchEpisodes, clearSelectedEpisode })(SeasonsList);

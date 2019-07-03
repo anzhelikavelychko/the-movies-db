@@ -7,6 +7,8 @@ import { TextField } from '@rmwc/textfield';
 import { Button } from '@rmwc/button'
 import '@material/textfield/dist/mdc.textfield.css';
 import '@material/button/dist/mdc.button.css';
+import './MenuItemContent.css';
+
 
 const SearchField = ({ 
   inputValue, 
@@ -29,11 +31,10 @@ const SearchField = ({
     cleanContent();
     clearSelectedItem();
     setInputValue('');
-
   };
 
   return(
-    <div>
+    <div className="text_field">
       <form onSubmit={onFormSubmit}>
         <TextField 
           icon="search" 

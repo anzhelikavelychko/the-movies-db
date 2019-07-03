@@ -9,15 +9,13 @@ import {
   requestMovieDetails,
   requestTvShowDetails,
   clearSelectedItem,
-  setLoading,
   clearSelectedEpisode
 } from '../actions/index';
 
 import SearchField from './SearchField';
 import TabBarMenu from './TabBarMenu';
 import MenuItemContent from './MenuItemContent';
-
-
+import './MenuItemContent.css';
 
 const App = ({ 
   contentItems,
@@ -30,13 +28,12 @@ const App = ({
   requestTvShowDetails,
   clearSelectedItem,
   selectedItem,
-  setLoading,
-  loading,
   clearSelectedEpisode
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
   const [inputValue, setInputValue] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const onSearchSubmit = async (searchText) => {
     if (!searchText) {
@@ -88,7 +85,12 @@ const App = ({
         setInputValue={setInputValue}
         onSearchSubmit={onSearchSubmit}
       />
-      { contentItems.length ? <TabBarMenu activeTab={activeTab} setActiveTab={updateActiveTab} /> : null }
+      { contentItems.length ? <TabBarMenu activeTab={activeTab} setActiveTab={updateActiveTab} /> : 
+        <div className="default_message">
+          <img src="https://i.pinimg.com/736x/07/f1/06/07f106dbabe55e1887d6bb649ecc68b0--candy-corn-candy-canes.jpg" alt="Movies image" />
+          <p>Let's find out what are you gonna watch today</p>
+        </div> 
+      }
       { activeTab === 0 &&
         <MenuItemContent
           fetchData={fetchMulti}
@@ -116,19 +118,19 @@ const App = ({
         /> 
       }
         { activeTab === 2 &&
-        <MenuItemContent 
-          fetchData={fetchTvShows}
-          items={contentItems}
-          totalPages={totalPages}
-          searchText={inputValue}
-          fetchDetails={getItemDetails}
-          selectedItem={selectedItem}
-          loading={loading}
-          setLoading={setLoading}
-          clearSelectedEpisode={clearSelectedEpisode}
-        /> 
-      }
-    </>
+          <MenuItemContent 
+            fetchData={fetchTvShows}
+            items={contentItems}
+            totalPages={totalPages}
+            searchText={inputValue}
+            fetchDetails={getItemDetails}
+            selectedItem={selectedItem}
+            loading={loading}
+            setLoading={setLoading}
+            clearSelectedEpisode={clearSelectedEpisode}
+          /> 
+        }
+      </>
   );
 };
 
@@ -153,6 +155,5 @@ export default connect(
     requestMovieDetails,
     requestTvShowDetails,
     clearSelectedItem,
-    setLoading,
     clearSelectedEpisode 
   })(App);

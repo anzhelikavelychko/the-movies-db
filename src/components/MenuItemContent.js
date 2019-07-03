@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@rmwc/button';
 import ItemsList from './ItemsList';
 import ItemDetails from './ItemDetails';
-import LoaderHOC from '../HOC/LoaderHOC';
+import LoaderHOC from './LoaderHOC';
 
 import './MenuItemContent.css';
 import './Loader.css';
@@ -42,6 +42,7 @@ class MenuItemContent extends React.Component {
 
     return (
       <Button 
+        style={{ display: 'flex', justifyContent: 'center', margin: 'auto', border: '2px solid #6200ee'}}
         label="Load more"  
         onClick={this.onLoad}
         disabled={this.state.activePage === totalPages}
@@ -49,23 +50,25 @@ class MenuItemContent extends React.Component {
     )
  };
 
-  onItemSelect = (item) => {
-    this.props.fetchDetails(item);
+  onItemSelect = async (item) => {
+    this.props.setLoading(true);
+    this.props.clearSelectedEpisode();
+    await this.props.fetchDetails(item);
     this.setState({ sidebar: true });
+    this.props.setLoading(false);
   };
 
   closeSidebar = () => {
     this.setState({ sidebar: false });
     this.props.clearSelectedEpisode();
-  }
+  };
 
  render() {
-   const { items, selectedItem, loading } = this.props;
 
-   if (loading) {
-     return <div className="loading"></div>;
-   }
+  const { items, selectedItem, loading } = this.props;
+  console.log(loading);
 
+  if (loading) return <div className="loading"></div>
    return (
       <div className="menu_item_content">
         <ItemsList 
@@ -80,4 +83,4 @@ class MenuItemContent extends React.Component {
   }
 };
 
-export default LoaderHOC(MenuItemContent);
+export default MenuItemContent;

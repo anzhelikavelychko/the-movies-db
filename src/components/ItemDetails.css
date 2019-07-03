@@ -1,9 +1,54 @@
-.item_details {
+.details_container {
     background-color: aliceblue;
     position: absolute;
     top: 0;
     right: 0;
     width: 40%;
+    height: 70vh;
+}
+
+.image_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.additional_info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rating {
+    display: flex;
+    justify-content: center;  
+}
+
+.rating p {
+    padding: 10px;
+    background: goldenrod;
+    border-radius: 100px;
+}
+.companies_info {
+    display: flex;
+    justify-content: center;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.links a {
+    all: unset;
+    padding: 4px;
+    text-decoration-line: underline;
+    background: white;
+    border: 2px solid #6200ee;
+    border-radius: 5px;
+    color: #6200ee;
 }
 
 .close {
