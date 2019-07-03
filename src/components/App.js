@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-
 import { 
   fetchMulti, 
   fetchMovies, 
@@ -10,13 +9,13 @@ import {
   requestMovieDetails,
   requestTvShowDetails,
   clearSelectedItem,
+  clearSelectedEpisode
 } from '../actions/index';
 
 import SearchField from './SearchField';
 import TabBarMenu from './TabBarMenu';
 import MenuItemContent from './MenuItemContent';
-
-
+import './MenuItemContent.css';
 
 const App = ({ 
   contentItems,
@@ -27,7 +26,10 @@ const App = ({
   cleanContent,
   requestMovieDetails,
   requestTvShowDetails,
-  clearSelectedItem
+  clearSelectedItem,
+  selectedItem,
+  clearSelectedEpisode,
+  isFetching
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
@@ -75,8 +77,8 @@ const App = ({
   };
 
   return ( 
-    <div>
-     <SearchField
+    <>
+      <SearchField
         inputValue={inputValue}
         setInputValue={setInputValue}
         onSearchSubmit={onSearchSubmit}
@@ -89,6 +91,9 @@ const App = ({
           totalPages={totalPages}
           searchText={inputValue}
           fetchDetails={getItemDetails}
+          selectedItem={selectedItem}
+          isFetching={isFetching}
+          clearSelectedEpisode={clearSelectedEpisode}
         /> 
       } 
       { activeTab === 1 &&
@@ -98,28 +103,33 @@ const App = ({
           totalPages={totalPages}
           searchText={inputValue}
           fetchDetails={getItemDetails}
+          selectedItem={selectedItem}
+          isFetching={isFetching}
+          clearSelectedEpisode={clearSelectedEpisode}
         /> 
       }
         { activeTab === 2 &&
-        <MenuItemContent 
-          fetchData={fetchTvShows}
-          items={contentItems}
-          totalPages={totalPages}
-          searchText={inputValue}
-          fetchDetails={getItemDetails}
-        /> 
-      }
-    </div>
+          <MenuItemContent 
+            fetchData={fetchTvShows}
+            items={contentItems}
+            totalPages={totalPages}
+            searchText={inputValue}
+            fetchDetails={getItemDetails}
+            selectedItem={selectedItem}
+            isFetching={isFetching}
+            clearSelectedEpisode={clearSelectedEpisode}
+          /> 
+        }
+      </>
   );
 };
 
-const mapStateToProps = (state) => {
-  const { contentItems, totalPages } = state.contentItems.data;
-  return {
-    contentItems,
-    totalPages
-  }
-}
+const mapStateToProps = (state) => ({
+  contentItems: state.contentItems.data.contentItems,
+  totalPages: state.contentItems.data.totalPages,
+  selectedItem: state.selectedItem,
+  isFetching: state.contentItems.isFetching
+})
 
 export default connect(
   mapStateToProps, 
@@ -130,5 +140,6 @@ export default connect(
     cleanContent,
     requestMovieDetails,
     requestTvShowDetails,
-    clearSelectedItem, 
+    clearSelectedItem,
+    clearSelectedEpisode 
   })(App);

@@ -1,13 +1,12 @@
 import React from 'react';
-
 import { Button } from '@rmwc/button';
-
 import ItemsList from './ItemsList';
 import ItemDetails from './ItemDetails';
-
+import './MenuItemContent.css';
+import './Loader.css';
 
 class MenuItemContent extends React.Component {
-  state = { activePage: 1 };
+  state = { activePage: 1, sidebar: false };
 
   componentDidMount() {
     const { searchText } = this.props;
@@ -26,9 +25,7 @@ class MenuItemContent extends React.Component {
   onLoad = () => {
     const { searchText } = this.props;
     const nextPage = this.state.activePage + 1;
-    
     this.setState({activePage: nextPage});
-
     this.props.fetchData(searchText, nextPage);
   };
   
@@ -37,7 +34,8 @@ class MenuItemContent extends React.Component {
 
     return (
       <Button 
-        label="Load more"  
+        style={{ display: 'flex', justifyContent: 'center', margin: 'auto', border: '2px solid #6200ee'}}
+        label="Load more"
         onClick={this.onLoad}
         disabled={this.state.activePage === totalPages}
       /> 
@@ -45,20 +43,36 @@ class MenuItemContent extends React.Component {
  };
 
   onItemSelect = (item) => {
+    this.props.clearSelectedEpisode();
     this.props.fetchDetails(item);
+    this.setState({ sidebar: true });
+  };
+
+  closeSidebar = () => {
+    this.setState({ sidebar: false });
+    this.props.clearSelectedEpisode();
   };
 
  render() {
-   const { items } = this.props;
-   
-   return (
-    <div>
-      <ItemDetails />
-      <ItemsList list={items} onItemSelect={this.onItemSelect} />
-      { !items.length ?  null : this.renderLoadMoreButton() }
+
+  const { items, selectedItem, isFetching } = this.props;
+
+  if (isFetching) { 
+    return <div className="loading"></div>;
+  }
+
+  return (
+    <div className="menu_item_content">
+      <ItemsList 
+        list={items}
+        onItemSelect={this.onItemSelect}
+        blurred={this.state.sidebar}
+      />
+      {selectedItem && this.state.sidebar  ? <ItemDetails closeSidebar={this.closeSidebar} /> : null}
+      {!items.length ?  null : this.renderLoadMoreButton()}
     </div>
-  );
- }
+   );
+  }
 };
 
 export default MenuItemContent;

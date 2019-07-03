@@ -1,0 +1,44 @@
+.menu_item_content {
+    position: relative;
+}
+
+.text_field {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+    border-bottom: 3px solid #6200ee;
+}
+
+.mdc-tab-scroller__scroll-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.mdc-ripple-upgraded mdc-button {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    border: 2px solid #6200ee;
+
+}
+
+.default_message {
+    display: flex;
+    flex-direction: column;
+}
+
+.default_message img {
+    display: flex;
+    width: 500px;
+    margin: auto;
+}
+
+.default_message p {
+    text-align: center;
+    font-size: 30px;
+    color: #6200ee;
+}
+
+.mdc-text-field.mdc-ripple-upgraded::before {
+    transform: none;
+}

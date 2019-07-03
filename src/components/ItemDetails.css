@@ -1,0 +1,86 @@
+.details_container {
+    background-color: aliceblue;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 70vh;
+}
+
+.image_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.additional_info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rating {
+    display: flex;
+    justify-content: center;  
+}
+
+.rating p {
+    padding: 10px;
+    background: goldenrod;
+    border-radius: 100px;
+}
+.companies_info {
+    display: flex;
+    justify-content: center;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.links a {
+    all: unset;
+    padding: 4px;
+    text-decoration-line: underline;
+    background: white;
+    border: 2px solid #6200ee;
+    border-radius: 5px;
+    color: #6200ee;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+    opacity: 0.3;
+}
+
+.close:hover {
+    opacity: 1;
+}
+.close:before, .close:after {
+    left: 10px;
+    position: absolute;
+    content: ' ';
+    height: 20px;
+    width: 2px;
+    background-color: #333;
+}
+.close:before {
+    transform: rotate(45deg);
+}
+.close:after {
+    transform: rotate(-45deg);
+}
+
+.overview {
+    display: flex;
+    overflow-y: scroll;
+    max-height: 100px;
+    border: 2px solid lightgray;
+}
