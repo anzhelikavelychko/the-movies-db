@@ -75,7 +75,7 @@ const ItemDetails = ({ item, closeSidebar }) => {
 
 const mapStateToProps = (state) => {
   return {
-    item: state.selectedItem,
+    item: state.selectedItem.data,
   }
 }; 
 

@@ -2,6 +2,11 @@
     position: relative;
 }
 
+.menu_item_content_blured{
+    position: relative;
+    opacity: .3;
+}
+
 .text_field {
     display: flex;
     justify-content: flex-end;

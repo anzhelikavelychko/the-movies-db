@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import Select from 'react-select';
 import { fetchEpisodes, clearSelectedEpisode } from '../actions/index';
 import SeasonComponent from './SeasonComponent';
 import EpisodeComponent from './EpisodeComponent';
@@ -13,21 +14,20 @@ const SeasonsList = ({
     episodes,
     clearSelectedEpisode 
 }) => {
+    const getOptions = () => {
+        let options = [];
+        seasons.forEach( season => (options = [ ...options, { value: 'Season ' + season.season_number, label: 'Season ' + season.season_number, number: season.season_number}]))
+        return options;
+    };
+    const [activeSeason, setActiveSeason] = useState(getOptions()[0]);
     const [selectedEpisode, setSelectedEpisode] = useState(null);
 
-    const onSeasonClick = async (number) => {
+    const onSeasonClick = (item) => {
         setSelectedEpisode(null);
-        await clearSelectedEpisode();
-        fetchEpisodes(tvId, number);
+        clearSelectedEpisode();
+        setActiveSeason(item);
+        fetchEpisodes(tvId, item.number);
     };
-
-    const renderList = seasons.map((season) => 
-        <SeasonComponent 
-            key={ season.id} 
-            season={season} 
-            onSeasonClick={onSeasonClick}
-        />
-    );
 
     const onSelectEpisode = (id) => {
        const selected = episodes.find( episode => episode.id === id);
@@ -36,7 +36,15 @@ const SeasonsList = ({
 
     return (
         <>
-            <div className="seasons_list">{renderList}</div>
+            <div>
+                <Select
+                    value={activeSeason}
+                    isSearchable={false}
+                    options={getOptions()}
+                    onChange={value => onSeasonClick(value)}
+                    components={{ IndicatorSeparator: () => null }}
+                />
+            </div>
             {episodes.length ? <EpisodeComponent data={episodes} onSelectEpisode={onSelectEpisode}/> : null }
             {selectedEpisode ? (
                 <div className="selected_episode">

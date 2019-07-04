@@ -2,22 +2,18 @@ import React from 'react';
 import { Button } from '@rmwc/button';
 import ItemsList from './ItemsList';
 import ItemDetails from './ItemDetails';
-import LoaderHOC from './LoaderHOC';
-
 import './MenuItemContent.css';
 import './Loader.css';
 
 class MenuItemContent extends React.Component {
   state = { activePage: 1, sidebar: false };
 
-  async componentDidMount() {
-    const { searchText, setLoading } = this.props;
+  componentDidMount() {
+    const { searchText} = this.props;
     const { activePage } = this.state;
     if (searchText.length) {
-      setLoading(true);
-      await this.props.fetchData(searchText, activePage);
+      this.props.fetchData(searchText, activePage);
     } 
-    setLoading(false);
   }
 
   componentDidUpdate(prevProps) {
@@ -26,15 +22,11 @@ class MenuItemContent extends React.Component {
     }
   }
 
-  onLoad = async () => {
-    const { searchText, setLoading } = this.props;
+  onLoad = () => {
+    const { searchText } = this.props;
     const nextPage = this.state.activePage + 1;
-    
     this.setState({activePage: nextPage});
-    setLoading(true);
-
-    await this.props.fetchData(searchText, nextPage);
-    setLoading(false);
+    this.props.fetchData(searchText, nextPage);
   };
   
   renderLoadMoreButton = () => {
@@ -43,19 +35,17 @@ class MenuItemContent extends React.Component {
     return (
       <Button 
         style={{ display: 'flex', justifyContent: 'center', margin: 'auto', border: '2px solid #6200ee'}}
-        label="Load more"  
+        label="Load more"
         onClick={this.onLoad}
         disabled={this.state.activePage === totalPages}
       /> 
     )
  };
 
-  onItemSelect = async (item) => {
-    this.props.setLoading(true);
+  onItemSelect = (item) => {
     this.props.clearSelectedEpisode();
-    await this.props.fetchDetails(item);
+    this.props.fetchDetails(item);
     this.setState({ sidebar: true });
-    this.props.setLoading(false);
   };
 
   closeSidebar = () => {
@@ -65,20 +55,25 @@ class MenuItemContent extends React.Component {
 
  render() {
 
-  const { items, selectedItem, loading } = this.props;
-  console.log(loading);
+  const { items, selectedItem, isFetching, isfetchingDetails } = this.props;
 
-  if (loading) return <div className="loading"></div>
-   return (
-      <div className="menu_item_content">
-        <ItemsList 
-          list={items}
-          onItemSelect={this.onItemSelect}
-          blurred={this.state.sidebar}
-        />
-        {selectedItem && this.state.sidebar  ? <ItemDetails closeSidebar={this.closeSidebar} /> : null}
-        {!items.length ?  null : this.renderLoadMoreButton()}
-      </div>
+  /*if (isFetching || isfetchingDetails) { 
+    return <div className="loading"></div>;
+  }*/
+
+  return (
+    <div className="menu_item_content">
+      { isFetching || isfetchingDetails ? <div className="loading"></div> : null }
+      <ItemsList 
+        list={items}
+        onItemSelect={this.onItemSelect}
+        blurred={this.state.sidebar}
+        isFetching={isFetching}
+        isfetchingDetails={isfetchingDetails}
+      />
+      {selectedItem && this.state.sidebar  ? <ItemDetails closeSidebar={this.closeSidebar} /> : null}
+      {!items.length ?  null : this.renderLoadMoreButton()}
+    </div>
    );
   }
 };

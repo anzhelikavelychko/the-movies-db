@@ -28,14 +28,15 @@ const App = ({
   requestTvShowDetails,
   clearSelectedItem,
   selectedItem,
-  clearSelectedEpisode
+  clearSelectedEpisode,
+  isFetching,
+  isfetchingDetails
 }) => {
 
   const [activeTab, setActiveTab] = useState(0);
   const [inputValue, setInputValue] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const onSearchSubmit = async (searchText) => {
+  const onSearchSubmit = (searchText) => {
     if (!searchText) {
       return;
     }
@@ -44,15 +45,13 @@ const App = ({
       cleanContent();
     }
 
-    setLoading(true);
     if (activeTab === 0) {
-      await fetchMulti(searchText);
+      fetchMulti(searchText);
     } else if (activeTab === 1) {
-      await fetchMovies(searchText);
+      fetchMovies(searchText);
     } else if (activeTab === 2) {
-      await fetchTvShows(searchText);
+      fetchTvShows(searchText);
     }
-    setLoading(false);
   };
 
   const updateActiveTab = (tab) => {
@@ -85,12 +84,7 @@ const App = ({
         setInputValue={setInputValue}
         onSearchSubmit={onSearchSubmit}
       />
-      { contentItems.length ? <TabBarMenu activeTab={activeTab} setActiveTab={updateActiveTab} /> : 
-        <div className="default_message">
-          <img src="https://i.pinimg.com/736x/07/f1/06/07f106dbabe55e1887d6bb649ecc68b0--candy-corn-candy-canes.jpg" alt="Movies image" />
-          <p>Let's find out what are you gonna watch today</p>
-        </div> 
-      }
+      { contentItems.length ? <TabBarMenu activeTab={activeTab} setActiveTab={updateActiveTab} /> : null }
       { activeTab === 0 &&
         <MenuItemContent
           fetchData={fetchMulti}
@@ -99,8 +93,8 @@ const App = ({
           searchText={inputValue}
           fetchDetails={getItemDetails}
           selectedItem={selectedItem}
-          loading={loading}
-          setLoading={setLoading}
+          isFetching={isFetching}
+          isfetchingDetails={isfetchingDetails}
           clearSelectedEpisode={clearSelectedEpisode}
         /> 
       } 
@@ -112,8 +106,8 @@ const App = ({
           searchText={inputValue}
           fetchDetails={getItemDetails}
           selectedItem={selectedItem}
-          loading={loading}
-          setLoading={setLoading}
+          isFetching={isFetching}
+          isfetchingDetails={isfetchingDetails}
           clearSelectedEpisode={clearSelectedEpisode}
         /> 
       }
@@ -125,8 +119,8 @@ const App = ({
             searchText={inputValue}
             fetchDetails={getItemDetails}
             selectedItem={selectedItem}
-            loading={loading}
-            setLoading={setLoading}
+            isFetching={isFetching}
+            isfetchingDetails={isfetchingDetails}
             clearSelectedEpisode={clearSelectedEpisode}
           /> 
         }
@@ -134,16 +128,13 @@ const App = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  const { contentItems, totalPages } = state.contentItems.data;
-  const { loading } = state.contentItems;
-  return {
-    contentItems,
-    totalPages,
-    selectedItem: state.selectedItem,
-    loading
-  }
-}
+const mapStateToProps = (state) => ({
+  contentItems: state.contentItems.data.contentItems,
+  totalPages: state.contentItems.data.totalPages,
+  selectedItem: state.selectedItem.data,
+  isFetching: state.contentItems.isFetching,
+  isfetchingDetails: state.selectedItem.isfetchingDetails
+})
 
 export default connect(
   mapStateToProps, 

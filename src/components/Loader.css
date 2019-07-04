@@ -6,9 +6,9 @@
     border-top-color:rgba(155, 29, 155, 0.3);
     box-sizing:border-box;
     position:absolute;
-    top:50%;left:50%;
-    margin-top:-80px;
-    margin-left:-80px;
+    top:50%;
+    left: 50%;
+  	margin: auto;
     animation:loading 1.2s linear infinite;
     -webkit-animation:loading 1.2s linear infinite;
   }
