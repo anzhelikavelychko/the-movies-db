@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import Select from 'react-select';
-import { fetchEpisodes, clearSelectedEpisode } from '../actions/index';
-import SeasonComponent from './SeasonComponent';
 import EpisodeComponent from './EpisodeComponent';
 
 import './SeasonsList.css';
 
-const SeasonsList = ({ 
-    tvId, 
-    seasons, 
-    fetchEpisodes, 
+const SeasonsList = ({
+    tvId,
+    seasons,
+    fetchEpisodes,
     episodes,
-    clearSelectedEpisode 
+    clearSelectedEpisode
 }) => {
     const getOptions = () => {
         let options = [];
-        seasons.forEach( season => (options = [ ...options, { value: 'Season ' + season.season_number, label: 'Season ' + season.season_number, number: season.season_number}]))
+        seasons.forEach(season => (options = [...options, { value: 'Season ' + season.season_number, label: 'Season ' + season.season_number, number: season.season_number }]))
         return options;
     };
     const [activeSeason, setActiveSeason] = useState(getOptions()[0]);
@@ -30,8 +27,8 @@ const SeasonsList = ({
     };
 
     const onSelectEpisode = (id) => {
-       const selected = episodes.find( episode => episode.id === id);
-       setSelectedEpisode(selected);
+        const selected = episodes.find(episode => episode.id === id);
+        setSelectedEpisode(selected);
     };
 
     return (
@@ -45,21 +42,15 @@ const SeasonsList = ({
                     components={{ IndicatorSeparator: () => null }}
                 />
             </div>
-            {episodes.length ? <EpisodeComponent data={episodes} onSelectEpisode={onSelectEpisode}/> : null }
+            {episodes.length ? <EpisodeComponent data={episodes} onSelectEpisode={onSelectEpisode} /> : null}
             {selectedEpisode ? (
                 <div className="selected_episode">
                     <h3>{selectedEpisode.name}</h3>
                     <p>{selectedEpisode.overview}</p>
-                </div> ) : null 
+                </div>) : null
             }
         </>
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        episodes: state.contentItems.episodes
-    }
-};
-
-export default connect(mapStateToProps, { fetchEpisodes, clearSelectedEpisode })(SeasonsList);
+export default SeasonsList;

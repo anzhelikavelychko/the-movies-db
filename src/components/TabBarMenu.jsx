@@ -2,7 +2,7 @@ import React from 'react';
 import { TabBar, Tab } from '@rmwc/tabs';
 import '@material/tab-bar/dist/mdc.tab-bar.css';
 import '@material/tab/dist/mdc.tab.css';
-import './MenuItemContent.css';
+import './MenuItemContent/index.css';
 
 
 

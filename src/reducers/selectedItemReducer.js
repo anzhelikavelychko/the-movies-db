@@ -6,27 +6,27 @@ import {
 } from '../consts/ActionTypes';
 
 export default (state = { data: null, isfetchingDetails: false }, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case REQUEST_MOVIE_DETAILS:
-    case REQUEST_TVSHOW_DETAILS: 
+    case REQUEST_TVSHOW_DETAILS:
       return {
         ...state,
         isfetchingDetails: true
       }
-    case RECEIVE_SELECTED_ITEM: 
+    case RECEIVE_SELECTED_ITEM:
       return {
         ...state,
         data: action.payload,
         isfetchingDetails: false
       }
 
-    case CLEAR_SELECTED_ITEM: 
+    case CLEAR_SELECTED_ITEM:
       return {
         data: null,
         isfetchingDetails: false
       }
-      
-    default: 
+
+    default:
       return state;
   }
 };  
