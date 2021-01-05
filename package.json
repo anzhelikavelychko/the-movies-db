@@ -12,7 +12,7 @@
     "@rmwc/tabs": "^5.5.2",
     "@rmwc/textfield": "^5.5.2",
     "@rmwc/typography": "^5.5.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
